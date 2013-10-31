@@ -11,19 +11,15 @@ public class EchoServer {
             while (true) {
                 Socket client = socket.accept();
                 
-                PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                OutputStream out = client.getOutputStream();
+                InputStream in = client.getInputStream();
                 
-                String string;
-                while((string = in.readLine()) != null) {
-                    out.println(string);
-                    //System.out.println(string/*in.readLine()*/);
-                    if (string.equals("Fairwell")) {
-                        break;
-                    }
+                int inByte;
+                while((inByte = in.read()) != -1) {
+                    out.write(inByte);
                 }
                 
-                //client.close();
+                client.close();
             }
         } catch (IOException ioe) {
             System.err.println(ioe);

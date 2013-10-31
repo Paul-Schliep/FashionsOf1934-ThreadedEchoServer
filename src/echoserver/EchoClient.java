@@ -2,29 +2,31 @@ package echoserver;
 
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
-
-import org.omg.CORBA.portable.InputStream;
 
 public class EchoClient {
     public static void main(String[] args) {
         try {
-            Socket socket = new Socket("serenity.morris.umn.edu", 6013);
+        	String host = "localhost";
+        	if (args.length != 0) {
+        		host = args[0];
+        	}
+            Socket socket = new Socket(host, 6013);
             // You can change 127.0.0.1 to a machine name if you want to try this across
             // the network to another machine.
             // Socket socket = new Socket("avenger.morris.umn.edu", 6013);
 
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+            OutputStream out = socket.getOutputStream();
+            InputStream in = socket.getInputStream();
             
-            String string;
-            while ((string = stdIn.readLine()) != null) {
-                out.println(string);
-                System.out.println(in.readLine());
+            
+            int inByte;
+            while ((inByte = System.in.read()) != -1) {
+                out.write(inByte);
+                System.out.write(in.read());
+                System.out.flush();
             }
             
-            //socket.close();
+            socket.close();
         } catch (IOException ioe) {
             System.out.println("We caught an exception");
             System.err.println(ioe);
