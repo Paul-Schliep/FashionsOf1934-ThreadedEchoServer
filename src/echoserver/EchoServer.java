@@ -1,5 +1,16 @@
 package echoserver;
 
+/**
+ * Summary of our results:
+ * After testing a text file of 53306 characters, and rerunning it 10 times, it was extremely fast.  Seemed slightly faster than what our regular would do.
+ * After doing the same thing as the last test, and rerunning it 1000 times, bad things happen.  We ran out of memory, as expected, and errors happened.
+ * When we ran it with a MUCH larger file 10 times, it did take a few more seconds longer, but considerably more so without the threading.  
+ * 
+ * We noticed it was pretty easy to tell if we passed in a larger file, as well as when we ran it more times the server starts to scale up with more runs.
+ * So, as we run it more times, it takes considerably more time to run as the server begins to throttle and the time it takes begins to scale up.
+ */
+
+
 import java.net.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,13 +46,13 @@ public class EchoServer {
                 }
                 out.flush();
                 client.shutdownOutput();
-               // client.close();
+//                client.close();
 
             } catch (IOException ioe) {
                 System.err.println(ioe);
             }
 
-            //Finally necessary?
+//            Finally necessary?
             finally {
                 try {
                     client.close();

@@ -5,8 +5,8 @@ import java.net.*;
 
 public class EchoClient {
     public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
-            String host = "localhost";
-            if (args.length != 0) {
+           String host = "localhost";
+           if (args.length != 0) {
                 host = args[0];
             }
             Socket socket = new Socket(host, 6013);
@@ -15,13 +15,13 @@ public class EchoClient {
             InputStream in = socket.getInputStream();
 
             int inByte;
-            while ((inByte = System.in.read()) != -1) {
-                System.out.write(in.read());
+            while ((inByte = in.read()) != -1) {
+                System.out.write(inByte);
 
             }
             System.out.flush();
-            socket.shutdownOutput();
-            socket.close();
+            //socket.shutdownOutput();
+            //socket.close();
     }
     private static class serverWriter extends Thread {
         Socket socket;
@@ -41,7 +41,7 @@ public class EchoClient {
                 }
                 out.flush();
                 socket.shutdownOutput();
-               // client.close();
+           //socket.close();
 
             } catch (IOException ioe) {
                 System.err.println(ioe);
@@ -50,7 +50,7 @@ public class EchoClient {
             //Finally necessary?
             finally {
                 try {
-                    socket.close();
+                    //socket.close();
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
